@@ -5,53 +5,56 @@ import camp.nextstep.edu.missionutils.Randoms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Application {
+
+    private static final int DIGITS_Length = 3;
+
     public static void main(String[] args) {
-        // 게임 실행
-        while (true) {
+        Application ap = new Application();
+        boolean continueGame = true;
+        while (continueGame) {
             // 게임 설정 및 시작
-            String computerNum = setting();
+            String computerNum = ap.createComputerNum();
             // 게임 실행
-            boolean continueGame = game(computerNum);
-            // 게임 종료 조건 검사
-            if (!continueGame) {
-                break;
-            }
+            continueGame = ap.game(computerNum);
         }
     }
 
     //게임 초기 설정(컴퓨터가 정한 랜덤값)
-    public static String setting() {
-        StringBuilder sb = new StringBuilder();
+    public String createComputerNum() {
+        StringBuilder sb =new StringBuilder();
         List<Integer> computer = new ArrayList<>();
-        while (computer.size() < 3) {
+        while (computer.size() < DIGITS_Length) {
             int randomNumber = Randoms.pickNumberInRange(1, 9);
             if (!computer.contains(randomNumber)) {
                 computer.add(randomNumber);
             }
         }
+
         for (Integer num : computer) {
             sb.append(num);
         }
+
         System.out.println("숫자 야구 게임을 시작합니다.");
+
         return sb.toString();
     }
 
 
-    public static boolean game(String computerNum) {
+    public boolean game(String computerNum) {
         while (true) {
             System.out.print("숫자를 입력해주세요 : ");
-            //스트라이크 개수
+
             int strikeCount = 0;
-            //볼 개수
             int ballCount = 0;
 
             //유저 입력
             String userNum = Console.readLine();
 
             //길이가 3이 아니면 IllegalArgumentException 발생 시키고 프로그램 종료
-            if(userNum.length()!=3){
+            if(userNum.length()!=DIGITS_Length){
                 throw new IllegalArgumentException();
             }
             //유저의 값과 컴퓨터의 값을 비교
