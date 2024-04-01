@@ -9,3 +9,10 @@
 5. 게임 재시작 1, 종료 시 2 (System.exit() 호출 불가능)
 6. 세 자리 숫자가 아닌 숫자를 입력 받았을 경우, 예외처리
 (IllegalArgumentException을 발생시킨 후 애플리케이션은 종료)
+
+## 1차 리펙토링 목록
+ 
+3이라 하드코딩된 magicNumber를 변경 
+Stream API사용 
+필요없는 주석 삭제 
+메서드 더 나누기
