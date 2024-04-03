@@ -5,7 +5,8 @@ public class Application {
 
 
     public static void main(String[] args) {
-        StartGame startGame = new StartGame();
+        GameController gameController = new GameController();
+        gameController.startGame();
     }
 
 

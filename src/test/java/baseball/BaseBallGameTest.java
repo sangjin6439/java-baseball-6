@@ -1,34 +1,36 @@
 package baseball;
 
-
-
-import camp.nextstep.edu.missionutils.Console;
-import camp.nextstep.edu.missionutils.test.NsTest;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BaseBallGameTest {
 
 
-
     @Test
     public void 전부_스트라이크_시_출력_테스트() {
 
-    // given
-        StartGame startGame = new StartGame();
+        // given
+        GameController gameController = new GameController();
 
-    // when
-        GameResult gameResult = startGame.verifyNum("308", "308");
+        // when
+        GameResult gameResult = gameController.verifyNum("308", "308");
 
-    // then
-        assertEquals(3, equals(gameResult.getStrikeCount()));
-        assertEquals(0, equals(gameResult.getBallCount()));
+        // then
+        assertEquals(3, gameResult.getStrikeCount());
+        assertEquals(0, gameResult.getBallCount());
+    }
+
+    @Test
+    public void 세자리_이외입력_예외테스트(){
+        //given
+        GameController gameController = new GameController();
+
+        // when & then
+        Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+            gameController.validateUserNum("12");
+        });
     }
 
 }

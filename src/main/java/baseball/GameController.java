@@ -6,20 +6,26 @@ import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartGame {
+public class GameController {
 
-    private static final int DIGITS_Length = 3;
+    private static final int DIGITS_LENGTH = 3;
 
-    public StartGame() {
-        String computerNum = createComputerNum();
-        userPlay(computerNum);
+    public void startGame() {
+        boolean continueGame = true;
+        while (continueGame) {
+            String computerNum = createComputerNum();
+            boolean gameResult = playGame(computerNum);
+            if (!gameResult) {
+                break;
+            }
+        }
     }
 
     //게임 초기 설정(컴퓨터가 정한 랜덤값)
     public String createComputerNum() {
         StringBuilder sb = new StringBuilder();
         List<Integer> computer = new ArrayList<>();
-        while (computer.size() < DIGITS_Length) {
+        while (computer.size() < DIGITS_LENGTH) {
             int randomNumber = Randoms.pickNumberInRange(1, 9);
             if (!computer.contains(randomNumber)) {
                 computer.add(randomNumber);
@@ -33,8 +39,7 @@ public class StartGame {
         return sb.toString();
     }
 
-
-    public boolean userPlay(String computerNum) {
+    public boolean playGame(String computerNum) {
 
         System.out.println("숫자 야구 게임을 시작합니다.");
 
@@ -44,7 +49,7 @@ public class StartGame {
             //유저 입력
             String userNum = Console.readLine();
 
-            validateException(userNum);
+            validateUserNum(userNum);
 
             GameResult gameResult = verifyNum(userNum, computerNum);
             boolean gameContinue = printGameResult(gameResult.getStrikeCount(), gameResult.getBallCount());
@@ -56,7 +61,7 @@ public class StartGame {
         }
     }
 
-    //유저의 값과 컴퓨터의 값을 비교
+    //유저의 값과 컴퓨터 값을 비교
     public GameResult verifyNum(String userNum, String computerNum) {
         int strikeCount = 0;
         int ballCount = 0;
@@ -79,19 +84,16 @@ public class StartGame {
             return askContinueGame();
         }
 
-        //볼 출력
         if (ballCount > 0 && strikeCount == 0) {
             System.out.println(ballCount + "볼 ");
         } else if (ballCount > 0 && strikeCount != 0) {
             System.out.print(ballCount + "볼 ");
         }
 
-        //스트라이크 출력
         if (strikeCount > 0 && strikeCount < 3) {
             System.out.println(strikeCount + "스트라이크");
         }
 
-        // 하나도 못 맞출 시 낫싱 출력
         if (strikeCount == 0 && ballCount == 0) {
             System.out.println("낫싱");
         }
@@ -101,14 +103,14 @@ public class StartGame {
     public boolean askContinueGame() {
         int userChoose = Integer.parseInt(Console.readLine());
         if (userChoose == 1) {
-            new StartGame();
+            startGame();
         }
         return false;
     }
 
     //길이가 3이 아니면 IllegalArgumentException 발생 시키고 프로그램 종료
-    public void validateException(String userNum) {
-        if (userNum.length() != DIGITS_Length) {
+    public void validateUserNum(String userNum) {
+        if (userNum.length() != DIGITS_LENGTH) {
             throw new IllegalArgumentException();
         }
     }
